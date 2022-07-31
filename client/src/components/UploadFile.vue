@@ -9,7 +9,7 @@
         <input accept=".pdf" type="file" @change='handleUploadPdf' />
       </div>
 
-      <canvas id='canvas1' width='this.style.width' height='this.style.height'></canvas>
+      <canvas id='canvas1' :width='this.style.width' :height='this.style.height'></canvas>
       <div>
         <button @click='handleConvertToImage'>輸出</button>
       </div>
@@ -27,16 +27,21 @@ export default {
       src: '',
       canvas: null,
       ctx: null,
+      style: {
+        width: 500,
+        height: 300,
+      },
     };
   },
-  props: ['style'],
+  // props: ['style'],
   mounted() {
-    pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.bootcss.com/pdf.js/2.14.305/pdf.worker.js';
+    // pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.bootcss.com/pdf.js/2.14.305/pdf.worker.js';
+    pdfjs.GlobalWorkerOptions.workerSrc = './pdf.worker.js';
     this.canvas = document.getElementById('canvas1');
     this.ctx = this.canvas.getContext('2d');
   },
   methods: {
-    handleUploadImage(event) {
+    async handleUploadImage(event) {
       const f = event.target.files[0];
       // const { ctx } = this;
       const img = new Image();
@@ -47,8 +52,12 @@ export default {
         this.ctx.height = scaled.height;
         // draw image
         this.ctx.drawImage(img, 0, 0, this.ctx.width, this.ctx.height);
+        console.log('load success!!!!');
+        console.log(this.ctx);
       };
-      this.src = URL.createObjectURL(f);
+      img.src = URL.createObjectURL(f);
+      // console.log(URL.createObjectURL(f));
+      // this.src = URL.createObjectURL(f);
     },
 
     /** pdf */

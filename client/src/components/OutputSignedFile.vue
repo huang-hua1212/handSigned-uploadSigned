@@ -35,8 +35,8 @@ export default {
     signData() {
       if (this.canvas && this.signData) {
         fabric.Image.fromURL(this.signData, (img) => {
-          img.scaleToWidth(100);
-          img.scaleToHeight(100);
+          img.scaleToWidth(70);
+          img.scaleToHeight(70);
           this.canvas.calcOffset();
           toRaw(this.canvas).add(img).renderAll();
         });
